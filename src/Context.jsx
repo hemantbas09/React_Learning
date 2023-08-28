@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
-import { AppState } from "./App";
+import { useLocation, useNavigate } from "react-router-dom";
 const Context = () => {
-  const appData = useContext(AppState);
 
+ 
   return (
     <>
-      <h1>{appData.count}</h1>
-      <h1>{appData.data}</h1>
+      <h1>Use Context</h1>
     </>
   );
 };
