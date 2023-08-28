@@ -352,23 +352,23 @@ events are actions like clicks or inputs triggered by users. handle them using e
 7. **onBlur**: Occurs when an element loses focus.
 8. **onKeyDown**: Triggered when a key is pressed down.
 
-# React Router Dom:
+# React Router(V6):
 
 React Router is a library that helps you manage navigation and routing in React applications. It enables to create multi-page-like experiences within a single page, allowing users to navigate between different content without reloading the entire page.
 
-- **BrowserRouter**: A component in React Router that provides routing functionality for app, allowing you to navigate between different "pages" without refreshing the whole page.
+1. **BrowserRouter**: A component in React Router that provides routing functionality for app, allowing you to navigate between different "pages" without refreshing the whole page.It connect app with browser url.
 
 ```jsx
 <BrowserRouter>{/_ Your routes and components _/}</BrowserRouter>
 ```
 
-- **Route**: A component used to define a route along with the component to render when that route is matched.
+2. **Route**: A component used to define a route along with the component to render when that route is matched.
 
 ```jsx
 <Route path="/about" component={AboutComponent} />
 ```
 
-- **Routes**: A component that holds multiple `Route` components. It's used to define the routes of your application.
+3. **Routes**: A component that holds multiple `Route` components. It's used to define the routes of your application.
 
 ```jsx
 <Routes>
@@ -377,15 +377,15 @@ React Router is a library that helps you manage navigation and routing in React 
 </Routes>
 ```
 
-- **Route with Components**: Specifies a route and the component to render when that route is accessed.
+4. **Route with Components**: Specifies a route and the component to render when that route is accessed.
 
-- **Link**: A component provided by React Router that's used to create links to different routes in your app.
+5. **Link**: A component provided by React Router that's used to create links to different routes in your app.
 
 ```jsx
 <Link to="/about">Go to About</Link>
 ```
 
-- **NavLink**: A component similar to `Link`, but with additional features for styling and handling active links.
+5. **NavLink**: A component similar to `Link`, but with additional features for styling and handling active links.
 
 ```jsx
 <NavLink to="/about" activeClassName="active-link">
@@ -393,35 +393,120 @@ React Router is a library that helps you manage navigation and routing in React 
 </NavLink>
 ```
 
-- **isActive**: A function used in conjunction with `NavLink` to determine whether the link should be considered active.
+6. **isActive**: A function used in conjunction with `NavLink` to determine whether the link should be considered active.
 
-- **No Match URL - 404 Page not Found**: Setting up a "404 Not Found" page to handle routes that don't match any defined routes.
+```jsx
+<li>
+  <NavLink
+    to="/custom-hook"
+    style={({ isActive }) => {
+      return {
+        color: isActive ? "green" : "",
+      };
+    }}
+  >
+    Custom Hook
+  </NavLink>
+</li>
+```
 
-- **Dynamic URL**: Using dynamic segments in your route URLs to handle different types of content.
+7. **No Match URL - 404 Page not Found**: Setting up a "404 Not Found" page to handle routes that don't match any defined routes.
 
-- **useParams**: A hook that allows you to access the parameters from the current route.
+```jsx
+<Route path="*" element={<h1>Page is Not Found!!</h1>} />
+```
 
-- **useSearchParams**: A hook that gives you access to the query parameters in the URL.
+8. **Dynamic URL**: Using dynamic segments in your route URLs to handle different types of content.
 
-- **Conditional Route**: Defining routes based on certain conditions, like user authentication.
+```js
+<Route path="/context/:name" element={<Context />} />
+```
 
-- **Navigate**: A function used for programmatic navigation to different routes.
+9. **useParams**: A hook that allows you to access the parameters from the current route.
 
-- **useLocation**: A hook that provides access to the current location (URL) in your app.
+```jsx
+import { useParams } from "react-router-dom";
+const Context = () => {
+  let { name, id } = useParams();
 
-- **useNavigate**: A hook that returns the `navigate` function for programmatic navigation.
+  return (
+    <>
+      <h1>Use Context</h1>
+      <h1>{name}</h1>
+      <h1>{id}</h1>
+    </>
+  );
+};
 
-- **Creating and Running React JS Project**: The process of setting up and running a React JS project.
+export default Context;
+```
 
-- **Layout**: Creating a consistent layout for your app, which could include headers, footers, and other common elements.
+10. **useSearchParams**: A hook that gives you access to the query parameters in the URL.
 
-- **Nested Route**: Defining routes within routes, allowing you to have different components rendered based on nested URLs.
+```jsx
+import { useSearchParams } from "react-router-dom";
+const Context = () => {
+  let [searchParams, setSearchParams] = useSearchParams();
+  let price = searchParams.get("price");
+  return (
+    <>
+      <h1>{price}</h1>
+    </>
+  );
+};
 
-- **Outlet**: A placeholder in your layout where nested routes can be rendered.
+export default Context;
+```
 
-- **index**: A special filename that's automatically used when a folder is requested, simplifying nested routing.
+11. **Conditional Route**: Defining routes based on certain conditions, like user authentication.
 
-- **useRoutes**: A hook that enables you to define your routes in a declarative way using an object structure.
+```jsx
+<Route
+  path="/button"
+  element={token ? <Button /> : <Navigate to="/" replace />}
+/>
+```
+
+12. **Navigate**: A function used for programmatic navigation to different routes.
+
+```jsx
+<Route
+  path="/button"
+  element={token ? <Button /> : <Navigate to="/" replace />}
+/>
+```
+
+13. **useLocation**: A hook that provides access to the current location (URL) in your app.
+
+```jsx
+const location = useLocation();
+```
+
+14. **useNavigate**: A hook that returns the `navigate` function for programmatic navigation.
+
+```jsx
+const navigate = useNavigate();
+const Logout = () => {
+  navigate("/login");
+};
+```
+
+15. **Nested Route**: Defining routes within routes, allowing you to have different components rendered based on nested URLs.
+
+16. **Outlet**: A placeholder in your layout where nested routes can be rendered.
+
+17. **index**: A special filename that's automatically used when a folder is requested, simplifying nested routing.
+
+18. **useRoutes**: A hook that enables you to define your routes in a declarative way using an object structure.
+
+```jsx
+const routing = useRoutes([
+  { path: "/", element: <Home /> },
+  { path: "/about", element: <About /> },
+  { path: "/contact", element: <Contact /> },
+  { path: "*", element: <NotFound /> },
+]);
+```
 
 # Context API:
 
@@ -507,25 +592,6 @@ export default Reducer;
 # Custome Hook:
 
 Custom hooks in React are like tools create to package and share common code between different parts of app. They make code neater, prevent duplication, and reuse complex logic easily. This leads to better code organization, easier testing, and smoother collaboration among developers.
-
-# React Redux:
-
-React Redux is a library that helps manage state in React apps. It uses Redux principles to create a single, predictable place for data. It connects components to this data store, making state changes clear and manageable. This is great for complex apps where tracking and updating state becomes challenging. State represents the dynamic data that changes as users interact with application.
-
-**The Redux Approach:**
-Redux introduces a centralized data store known as the "store," which holds the entire state of application. Instead of letting each component manage its own state, Redux centralizes the state management process. Actions, which are plain JavaScript objects describing events or changes, are dispatched to the Redux store. Reducers then define how the state should change in response to these actions, maintaining a clear and predictable flow of data changes.
-
-**Benefits of React Redux:**
-
-1. **Predictability:** Redux's strict architecture ensures that state changes follow a clear pattern, making it easier to track how data evolves over time.
-
-2. **Debugging:** With a single source of truth and well-defined actions, debugging becomes more straightforward as you can trace the history of state changes.
-
-3. **Scalability:** As your application grows in complexity, Redux offers a scalable solution to state management, maintaining a structured approach.
-
-4. **Consistency:** A consistent pattern for state management simplifies collaboration among developers, ensuring that everyone follows the same guidelines.
-
-5. **Testing:** Redux promotes the use of pure functions for state updates, making it easier to write unit tests for your reducers.
 
 # Redux
 
